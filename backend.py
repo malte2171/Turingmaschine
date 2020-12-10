@@ -1,7 +1,8 @@
-table = [["1", "#", "#", "R", "1"], ["1", "B", "B", "R", "2"], ["2", "B", "#", "R", "3"], ["2", "#", "#", "L", "6"], ["3", "B", "#", "R", "4"], ["3", "#", "#", "L", "7"], ["4", "B", "B", "R", "2"], ["4", "#", "#", "L", "7"], ["5", "#", "#", "L", "6"], ["6", "B", "B", "L", "7"], ["6", "#", "#", "R", "E"], ["7", "#", "#", "L", "5"], ["E", "#", "#", "R", "E"], ]
-state = "1"
-pointer = 0
-band = []
+#TODO debug table... strage syntax errors... good night
+global table = [["1", "#", "#", "R", "1"], ["1", "B", "B", "R", "2"], ["2", "B", "#", "R", "3"],        ["2", "#", "#", "L", "6"],        ["3", "B", "#", "R", "4"],        ["3", "#", "#", "L", "7"],  ["4", "B", "B", "R", "2"],        ["4", "#", "#", "L", "7"],        ["5", "#", "#", "L", "6"],        ["6", "B", "B", "L", "7"],        ["6", "#", "#", "R", "E"],        ["7", "#", "#", "L", "5"],        ["E", "#", "#", "R", "E"]]
+global state = "1"
+global pointer = 0
+global band = []
 
 
 #for r in table:
@@ -25,37 +26,30 @@ def printTable(table):
             print(table[arr])
 
 def fillBand(band, length):
-    for i in range (0, length): #geht band einmal durch
-        band.append("X")    #band wird für jedes i um "X" erweitert
-    print(band) #band wird ausgegeben
-    return band
+    for i in range (length): #geht band einmal durch
+        band.append("#")    #band wird für jedes i um # erweitert
 
-def appendBand(band, var):  
+def preaddBand(var):  
     band.insert(0, var) #das band wird links um eine Variable erweitert 
-    print(band)
-    return band
     
 def nextStep():
     for column in table: #gehe jede spalte durch
         if column[0] == state:   #wenn der aktuelle zustand stimmt
             if column[1] == band[pointer]: #wenn man das richtige liest
                 band[pointer] = column[2] #ersetzte mit dem schreibe element
-                pointer += 1 if column[3] == "R" else -1
-                state = column[4]
-                return True
-    return False
+                pointer += 1 if column[3] == "R" else -1 #wenn r dann pointer +1 sonst -1
+                state = column[4] #setze den neuen status
+                return True #schritt erfolgreich ausgeführt
+    return False #fehler. schritt konnte nicht ausgeführt werden.
 
-            
-
-def cast(string):
-    interger = int(string)
-    return interger
-    
 
 var = 7
 
 fillBand(band, 10)  #band wird gefüllt
-appendBand(band, var)   #band wird mit var nach links erweitert
+preaddBand(var)   #band wird mit var nach links erweitert
 printTable(table)
+print("startinh...")
+while nextStep():
+    print(band)
 
 
