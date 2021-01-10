@@ -3,7 +3,7 @@ table = ([  ["1", "B", "B", "R", "2"], #überspringe den erstn Baum
             ["3", "B", "#", "R", "1"], #lösche den dritten Baum
          ])
 state = "1"
-pointer = 1
+pointer = 0
 band = []
 
 def fillBand(length):
