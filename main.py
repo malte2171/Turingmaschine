@@ -276,6 +276,7 @@ def timer():
     global delay
     x=nextStep()
     print(band)
+    
     update_gui()
     #time.sleep(delay)
     print(x)
