@@ -4,7 +4,7 @@ global band
 band = []
 
 global table
-table = [[]]
+table = []
 
 global bandIndex 
 bandIndex = 0
@@ -21,13 +21,28 @@ state = 1
 global pointer
 pointer = 0
 
+global stateIndex
+stateIndex = 0
+
 def fillBand(length):
     global band
     for i in range(0, length):  
         band.append("#")  
 
 fillBand(50)
-   
+
+def run(): #the running cirlce   
+   print("next run") 
+   graphics.mapBand()
+   graphics.mapTable()
+   dumpMap()
+   b = nextStep()
+   graphics.update()
+   if (b):
+      root.after(2500, func=run)
+   else:
+      print("DONE")
+
 class GUI(tk.Frame):
    
    def __init__(self, parent):
@@ -52,7 +67,6 @@ class GUI(tk.Frame):
 
       #state Pointer
       self.statePointer = tk.Label(parent, bg="#FAA61A", font=50, text="V")
-      self.statePointer.place(x =100, y =200, width=50 , height = 25) 
       
       #Band
       bandLeft = tk.Button(parent,fg="#ffffff", bg="#2F3136",font= 50, text = "<", command=self.bandBack)
@@ -69,7 +83,7 @@ class GUI(tk.Frame):
 
 
       #Table
-      self.table = []
+      self.tableElements = []
 
       th = ["Q", "L", "S", "B", "Q'"]
       for j in range(5):
@@ -90,13 +104,16 @@ class GUI(tk.Frame):
       self.update()
 
    def update(self): 
-      global band, bandIndex
+      global band, bandIndex, stateIndex
       for i in range(10):
          self.arr[i].delete(0, tk.END)
          self.arr[i].insert(0, band[i + bandIndex])
-      if (50 - 50 * bandIndex >= 0 and 50 - 50 * bandIndex <= 550):
-         self.pointer.place(x = 50 - 50 * bandIndex, y =0, width=50 , height = 25) #index angezeigter Feld - links rechts 
-         self.secondPointer.place(x = 50 - 50 * bandIndex, y =75, width=50 , height = 25)
+      a = 50 - 50 * bandIndex + 50 * pointer
+      if (a >= 0 and a <= 550):
+         self.pointer.place(x = a, y =0, width=50 , height = 25) #index angezeigter Feld - links rechts 
+         self.secondPointer.place(x = a, y =75, width=50 , height = 25)
+      b = 100 + stateIndex * 50
+      self.statePointer.place(x=b, y=200, width=50 , height = 25) 
 
    def start(self):
       print("start")
@@ -111,7 +128,7 @@ class GUI(tk.Frame):
             element = tk.Entry(self.parent)
             element.place(x=tableLength*50 + 50, y=j*50 + 225 , width=50, height=50)
             tableElement.append(element)
-         self.table.append(element)
+         self.tableElements.append(tableElement)
 
    def bandForward(self):
       global bandIndex
@@ -135,18 +152,21 @@ class GUI(tk.Frame):
       self.mapTable()
       for x in range(10 if tableIndex >= 10 else tableIndex + 1):
          for y in range(5):
-            self.table[x][y].delete()
-            self.table[x][y].insert(0, table[x - tableIndex][y])
+            self.tableElements[x][y].delete()
+            self.tableElements[x][y].insert(0, table[x - tableIndex][y])
 
-   #deprecated
    def mapTable(self):
       global table, tableLength
       table = []
-      for x in range(tableLength + 1):
+      for x in range(tableLength):
          arr = []
          for y in range(5):
-            a = self.table[x][y].get()
-            print(a)
+            #print(" x: " + str(x) + " y: " + str(y))
+            b = self.tableElements
+            #print(str(b))
+            a = b[x][y].get()
+            #print(str(a))
+            #print(type(a))
             arr.append(a)
          table.append(arr)
 
@@ -163,38 +183,51 @@ class GUI(tk.Frame):
 
 
 #Backend
-def appendLeft(self):
-    global band, pointer
-    self.band.insert(0, "#")  # das band wird links um eine stelle erweitert
-    self.pointer += 1
+def appendLeft():
+   global band, pointer
+   band.insert(0, "#")  # das band wird links um eine stelle erweitert
+   pointer += 1
 
 def appendRight():
-    global band
-    band.append("#")  # das band wird rehts um eine stelle erweitert
+   global band
+   band.append("#")  # das band wird rehts um eine stelle erweitert
 
 def nextStep():
-    global table, state, pointer, band
-    for column in table:  # gehe jede spalte durch
-        if column[0] == state:  # wenn der aktuelle zustand stimmt
-            if column[1] == band[pointer]:  # wenn man das richtige liest
-                band[pointer] = column[2]  # ersetzte mit dem schreibe element
-                move = 1 if column[3] == "R" else -1
-                pointer += move  # ändere den Pointer entsprechend der richtung
-                if move == 1 and pointer >= len(band):
-                    appendRight()
-                elif move == -1 and pointer < 0:
-                    appendLeft()
-                state = column[4]  # setzte den neuen state
-                return True
-    return False
+   global table, state, pointer, band, stateIndex
+   for i in range(len(table)):  # gehe jede spalte durch
+      column = table[i]
+      print("checking: " + str(column) + " state: " + str(state) + " pointer: " + str(pointer))
+      if column[0] == str(state):  # wenn der aktuelle zustand stimmt
+         print("confirmed state " + str(column))
+         if column[1] == band[pointer]:  # wenn man das richtige liest
+            print("confirmd read " + band[pointer])
+            stateIndex = i
+            band[pointer] = column[2]  # ersetzte mit dem schreibe element
+            move = 1 if column[3] == "R" else -1
+            pointer += move  # ändere den Pointer entsprechend der richtung
+            if move == 1 and pointer >= len(band):
+               appendRight()
+            elif move == -1 and pointer < 0:
+               appendLeft()
+            state = column[4]  # setzte den neuen state
+            return True
+         else:
+            print("failed read " + band[pointer])
+      else:
+         print("failed state " + str(column))
+   return False
 
 
-
+#deprecated for debug reasons only
+def dumpMap():
+   print("tableLength: " + str(len(table)))
+   for column in table:
+      string = " [ "
+      for element in column:
+         string += element + ", "
+      print(string + " ] ")
 root = tk.Tk()
-GUI(root)
+graphics = GUI(root)
 root.mainloop()
 
    
-def run():     
-   nextStep()
-   root.after(1000, func=run)
