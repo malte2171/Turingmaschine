@@ -122,6 +122,7 @@ class GUI(tk.Frame):
    def add(self):
       global tableLength
       tableLength += 1
+      table.append([])
       if (tableLength < 10):
          tableElement = []
          for j in range(5):
@@ -146,29 +147,86 @@ class GUI(tk.Frame):
    def tableLeft(self):
       print()
 
-   #deprecated
+   #deprecated            
    def tableRight(self):
       global table, tableIndex
-      self.mapTable()
-      for x in range(10 if tableIndex >= 10 else tableIndex + 1):
-         for y in range(5):
-            self.tableElements[x][y].delete()
-            self.tableElements[x][y].insert(0, table[x - tableIndex][y])
+      if tableLength >= 10: 
+         self.mapTable()
+         tableIndex -= 1
+         self.updateTable()
+         
 
+
+   
    def mapTable(self):
-      global table, tableLength
-      table = []
-      for x in range(tableLength):
-         arr = []
+      global table, tableLength, tableIndex
+      print("mapping table")
+      print("tableIndex: " + str(tableIndex))
+      print("tableLength: " + str(tableLength))
+      for x in range(9 if tableLength >= 9 else tableLength - 1): #TODO change
+         column = []
+         print("old position: " + str(x))
+         print("new position: " + str(x-tableIndex))
          for y in range(5):
-            #print(" x: " + str(x) + " y: " + str(y))
-            b = self.tableElements
-            #print(str(b))
-            a = b[x][y].get()
-            #print(str(a))
-            #print(type(a))
-            arr.append(a)
-         table.append(arr)
+            print(" x: " + str(x) + " y: " + str(y))
+            column.append(self.tableElements[x][y].get())
+         table[x-tableIndex] = column
+   
+   def updateTable(self):
+      global table, tableLength
+      print("update table")
+      print("tableIndex: " + str(tableIndex))
+      print("tableLength: " + str(tableLength))
+      for x in range(9 if tableLength >= 9 else tableLength):
+         for y in range(5):
+            print(" x: " + str(x) + " y: " + str(y))
+            self.tableElements[x][y].delete(0, tk.END)
+            self.tableElements[x][y].insert(0, table[x-tableIndex][y])
+   
+
+#   def checkTable(self):
+#      #Missing - Implementation to mapTable
+#          
+#      #Zustand: Qn
+#      #Checking for end state
+#      endzustand = False
+#      for _ in range(x):
+#         if y == 0 and (a == 'e' or a == 'E') :
+#            endzustand = True
+#         elif y == 4 and (a == 'e' or a == 'E') :
+#            endzustand = True
+#      #Zustand: L
+#      #Checking if read is in band
+#      for _ in range(x):
+#         if y == 1:
+#            if a in band:
+#                  print("L - is accepted")
+#            else:
+#                  print("This should not be accepted as an input - L")
+#                  print(x, y)
+#                  #break
+#      #Zustand: B
+#      #Checking that movments are defined
+#      leftright = ["r", "R", "l", "L"]
+#      for _ in range(x):
+#         if y == 3:
+#            if a in leftright:
+#                  print("B - is accepted")
+#            else:
+#                  print("This should not be accepted as an input - B")
+#                  print(x, y)
+#                  #break
+#                  
+#      arr.append(a)
+#
+#   #Checking state of endzustand
+#   if endzustand == True:
+#      print("Endzustand gefunden")
+#   elif endzustand == False:
+#      print("Endzustand nicht gefunden")
+#      # break
+#
+#   table.append(arr)
 
 
    def mapBand(self):
