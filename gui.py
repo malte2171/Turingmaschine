@@ -143,21 +143,22 @@ class GUI(tk.Frame):
       bandIndex -= 1
       self.update()
 
-   #deprecated
    def tableLeft(self):
-      print()
-
-   #deprecated            
+      global table, tableLength, tableIndex
+      print("if: " + str(tableLength + tableIndex))
+      if (tableLength + tableIndex) < 9: 
+         self.mapTable()
+         tableIndex += 1
+         self.updateTable()
+       
    def tableRight(self):
-      global table, tableIndex
-      if tableLength >= 10: 
+      global table, tableLength, tableIndex
+      print("if: " + str(tableLength - tableIndex))
+      if (tableLength - tableIndex) >= 9: 
          self.mapTable()
          tableIndex -= 1
          self.updateTable()
          
-
-
-   
    def mapTable(self):
       global table, tableLength, tableIndex
       print("mapping table")
@@ -170,6 +171,7 @@ class GUI(tk.Frame):
          for y in range(5):
             print(" x: " + str(x) + " y: " + str(y))
             column.append(self.tableElements[x][y].get())
+         print("index: " + str(x-tableIndex))
          table[x-tableIndex] = column
    
    def updateTable(self):
@@ -182,8 +184,10 @@ class GUI(tk.Frame):
             print(" x: " + str(x) + " y: " + str(y))
             self.tableElements[x][y].delete(0, tk.END)
             self.tableElements[x][y].insert(0, table[x-tableIndex][y])
-   
+    
 
+
+# TODO fix 
 #   def checkTable(self):
 #      #Missing - Implementation to mapTable
 #          
