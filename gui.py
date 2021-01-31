@@ -128,7 +128,6 @@ class GUI(tk.Frame):
         print(errorMessage)
         self.ErrorLabel.config(text=errorMessage)  
       
-
             
     def update(self):
         global band, bandIndex, stateIndex
@@ -232,21 +231,7 @@ class GUI(tk.Frame):
             value = self.arr[i].get()
             band[bandIndex + i] =  value if len(value) > 0 else "#"
 
-    def mapTable(self): #liest Eingabe von Tabelle aus und fügt sie in ein 2dimensionales Array ein
-        global table, tableLength
-        table = []
-        for x in range(tableLength):
-            arr = []
-            for y in range(5):
-                #print(" x: " + str(x) + " y: " + str(y))
-                b = self.tableElements
-                #print(str(b))
-                a = b[x][y].get()
-                #print(str(a))
-                #print(type(a))
-                arr.append(a)
-            table.append(arr)
-
+ 
 #deprecated for debug reasons only
 def dumpMap():
    print("tableLength: " + str(len(table)))
