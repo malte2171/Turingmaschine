@@ -37,6 +37,8 @@ def fillBand(length):   #band gets filled
 
 fillBand(50)   #band gets filled with 50 elements
 
+   
+
 def run(): #the running cirlce   
    print("next run") 
    graphics.mapBand()
@@ -63,6 +65,7 @@ class GUI(tk.Frame):
       parent.configure(bg="#36393F")
 
 
+       
       #StartButton
       bandLeft = tk.Button(parent,fg="black", bg="#43B581",font= 50, text = "Start", command=self.start) #start button is created
       bandLeft.place(x = 50, y = 125, width = 250, height = 50)   #start button is placed
@@ -74,6 +77,10 @@ class GUI(tk.Frame):
       #Pointer(von unten)
       self.secondPointer = tk.Label(parent, bg="#F04747", font=50, text="Ʌ")  #Label is created
       self.secondPointer.place(x =50, y =75, width=50 , height = 25) #label is placed
+
+      #State Label
+      self.stateLabel = tk.Label(parent, text=state)
+      self.stateLabel.place(x=0, y=0, width=50, height=25)
 
       #state Pointer
       self.statePointer = tk.Label(parent, bg="#FAA61A", font=50, text="V")   #state pointer is created
@@ -102,9 +109,13 @@ class GUI(tk.Frame):
          element.config(bg="#7289D9", font= 60) ##FAA61A orange #7289D9
 
       self.addCol = tk.Button(parent, bg="#7289D9", font= 50, text = "Add", command=self.add)
-      self.addCol.place(x = 300, y = 125, width = 250, height = 50)
+      self.addCol.place(x = 300, y = 125, width = 125, height = 50)
       self.add()
       
+      self.removeCol = tk.Button(parent, bg="gray", font= 50, text = "Remove", command=self.remove)
+      self.removeCol.place( x = 425, y = 125, width = 125, height = 50)
+      self.remove()
+
       tableLeft = tk.Button(parent,fg="#ffffff", bg="#2F3136", font= 60, text="<", command=self.tableLeft)
       tableLeft.place(x = 0, y = 225, width = 50, height = 250)
       
@@ -112,7 +123,22 @@ class GUI(tk.Frame):
       tableRight.place(x = 550, y = 225, width = 50, height = 250)
 
       self.update()
+      
+      #Error Label
 
+      self.ErrorLabel = tk.Label(parent,  fg="#000000", bg="#ffffff", font= 60, text="Error: du bist gay")
+      self.ErrorLabel.place(x = 0, y=500, width = 600, height = 100)
+      
+      self.errorButton = tk.Button(parent,fg="#ffffff", bg="#2F3136", font= 60, text="change Label", command=self.error)
+      self.errorButton.place(x = 0, y=610, width = 600, height = 100)
+
+
+   def error(self, errorMessage=""):
+      print(errorMessage)
+      self.ErrorLabel.config(text=errorMessage)  
+      
+   
+      
    def update(self): 
       global band, bandIndex, stateIndex
       for i in range(10):
@@ -139,6 +165,14 @@ class GUI(tk.Frame):
             element.place(x=tableLength*50 + 50, y=j*50 + 225 , width=50, height=50)
             tableElement.append(element)
          self.tableElements.append(tableElement)
+
+   def remove(self):
+      global tableLength
+      if (tableLength > 1):
+         tableLength = tableLength - 1
+         del self.tableElements[-1]                   #ändern zum namen der Tabelle wenn es soweit ist
+            
+
 
    def bandForward(self):        #index + 1 -->  bewegt nach rechts
       global bandIndex
@@ -225,6 +259,8 @@ def nextStep():
    return False
 
 
+
+
 #deprecated for debug reasons only
 def dumpMap():
    print("tableLength: " + str(len(table)))
@@ -235,9 +271,11 @@ def dumpMap():
       print(string + " ] ")
 
 
+
 #------------------------------
 # Programm ausführen
 #------------------------------
+   
 
 root = tk.Tk()
 graphics = GUI(root)

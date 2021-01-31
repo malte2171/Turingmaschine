@@ -1,0 +1,4 @@
+1. Aktueller State
+2. Reset Knopf
+3. passende Fehlermeldungen 
+4. habe ich nicht gehört
