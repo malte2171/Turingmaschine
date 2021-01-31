@@ -28,28 +28,31 @@ pointer = 0
 global stateIndex
 stateIndex = 0
  
- 
-def fillBand(length):
+
+#------------------------------
+# init
+#------------------------------
+def fillBand(length):   #band gets filled
     global band
-    for i in range(0, length):
-        band.append("#")
- 
- 
-fillBand(50)
- 
- 
-def run():  # the running cirlce
-    print("next run")
-    graphics.mapBand()
-    graphics.mapTable()
-    dumpMap()
-    b = nextStep()
-    graphics.update()
-    if (b):
-        root.after(2500, func=run)
-    else:
-        print("DONE")
- 
+    for i in range(0, length):  
+        band.append("#")  
+
+fillBand(50)   #band gets filled with 50 elements
+
+   
+
+def run(): #the running cirlce   
+   print("next run") 
+   graphics.mapBand()
+   graphics.mapTable()
+   dumpMap()
+   b = nextStep()
+   graphics.update()
+   if (b):
+      root.after(2500, func=run)
+   else:
+      print("DONE")
+
  
 class GUI(tk.Frame):
  
@@ -108,136 +111,8 @@ class GUI(tk.Frame):
         tableRight.place(x=550, y=225, width=50, height=250)
  
         self.update()
- 
-    def update(self):
-        global band, bandIndex, stateIndex
-        for i in range(10):
-            self.arr[i].delete(0, tk.END)
-            self.arr[i].insert(0, band[i + bandIndex])
-        a = 50 - 50 * bandIndex + 50 * pointer
-        c=bandIndex+pointer
-        if (a >= 0 and a <= 550):
-            self.pointer['text'] = "V"
-            self.pointer.place(x=a, y=0, width=50, height=25)  # index angezeigter Feld - links rechts
-            self.secondPointer.place(x=a, y=75, width=50, height=25)
-        if(c > 0):
-            self.pointer['text'] = str(-c)
-        elif(c < -9):
-            self.pointer['text'] = str(c+9)
-        else:
-            self.pointer['text'] = "V"
- 
-        b = 100 + stateIndex * 50
-        self.statePointer.place(x=b, y=200, width=50, height=25)
- 
-    def start(self):
-        print("start")
-        run()
- 
-    def add(self):
-        global tableLength
-        tableLength += 1
-        table.append([])
-        if (tableLength < 10):
-            tableElement = []
-            for j in range(5):
-                element = tk.Entry(self.parent)
-                element.place(x=tableLength * 50 + 50, y=j * 50 + 225, width=50, height=50)
-                tableElement.append(element)
-            self.tableElements.append(tableElement)
- 
-    def bandForward(self):
-        global bandIndex
-        self.mapBand()
-        bandIndex += 1
-        self.update()
- 
-    def bandBack(self):
-        global bandIndex
-        self.mapBand()
-        bandIndex -= 1
-        self.update()
- 
-    # deprecated
-    def tableLeft(self):
-        global table, tableIndex, tableLength
-        if tableLength >= 10 and tableIndex <0:
-            self.mapTable()
-            tableIndex += 1
-            self.updateTable()
- 
-    # deprecated
-    def tableRight(self):
-        global table, tableIndex, tableLength
-        if tableLength >= 10 and tableIndex > 9-tableLength:
-            self.mapTable()
-            tableIndex -= 1
-            self.updateTable()
- 
-    def mapTable(self):
-        global table, tableLength, tableIndex
-        print("mapping table")
-        print("tableIndex: " + str(tableIndex))
-        print("tableLength: " + str(tableLength))
-        for x in range(9 if tableLength >= 9 else tableLength):
-            column = []
-            print("old position: " + str(x))
-            print("new position: " + str(x - tableIndex))
-            for y in range(5):
-                print(" x: " + str(x) + " y: " + str(y))
-                column.append(self.tableElements[x][y].get())
-            table[x - tableIndex] = column
- 
-    def updateTable(self):
-        global table, tableLength
-        print("update table")
-        print("tableIndex: " + str(tableIndex))
-        print("tableLength: " + str(tableLength))
-        for x in range(8 if tableLength >= 8 else tableLength):
-            for y in range(5):
-                print(" x: " + str(x) + " y: " + str(y))
-                self.tableElements[x][y].delete(0, tk.END)
-                self.tableElements[x][y].insert(0, table[x - tableIndex][y])
 
- 
-    def mapBand(self):
-        global band, bandIndex
-        for i in range(10):
-            value = self.arr[i].get()
-            band[bandIndex + i] = value if len(value) > 0 else "#"
- 
-
-
-#------------------------------
-# init
-#------------------------------
-def fillBand(length):   #band gets filled
-    global band
-    for i in range(0, length):  
-        band.append("#")  
-
-fillBand(50)   #band gets filled with 50 elements
-
-   
-
-def run(): #the running cirlce   
-   print("next run") 
-   graphics.mapBand()
-   graphics.mapTable()
-   dumpMap()
-   b = nextStep()
-   graphics.update()
-   if (b):
-      root.after(2500, func=run)
-   else:
-      print("DONE")
-
-
-#------------------------------
-# GUI
-#------------------------------
-class GUI(tk.Frame):
-   def __init__(self, parent):
+ def __init__(self, parent):
       super(GUI, self).__init__(parent)
       self.parent = parent
       parent.title("Turing")
@@ -313,8 +188,7 @@ class GUI(tk.Frame):
       self.errorButton = tk.Button(parent,fg="#ffffff", bg="#2F3136", font= 60, text="change Label", command=self.error)
       self.errorButton.place(x = 0, y=610, width = 600, height = 100)
 
-
-   def error(self, errorMessage=""):
+def error(self, errorMessage=""):
       print(errorMessage)
       self.ErrorLabel.config(text=errorMessage)  
       
@@ -332,7 +206,33 @@ class GUI(tk.Frame):
       b = 100 + stateIndex * 50
       self.statePointer.place(x=b, y=200, width=50 , height = 25) 
 
-   def start(self):
+  
+            
+    def update(self):
+        global band, bandIndex, stateIndex
+        for i in range(10):
+            self.arr[i].delete(0, tk.END)
+            self.arr[i].insert(0, band[i + bandIndex])
+        a = 50 - 50 * bandIndex + 50 * pointer
+        c=bandIndex+pointer
+        if (a >= 0 and a <= 550):
+            self.pointer['text'] = "V"
+            self.pointer.place(x=a, y=0, width=50, height=25)  # index angezeigter Feld - links rechts
+            self.secondPointer.place(x=a, y=75, width=50, height=25)
+        if(c > 0):
+            self.pointer['text'] = str(-c)
+        elif(c < -9):
+            self.pointer['text'] = str(c+9)
+        else:
+            self.pointer['text'] = "V"
+ 
+        b = 100 + stateIndex * 50
+        self.statePointer.place(x=b, y=200, width=50, height=25)
+ 
+    def start(self):
+        print("start")
+        run()
+  def start(self):
       print("start")
       run()
 
@@ -347,15 +247,31 @@ class GUI(tk.Frame):
             tableElement.append(element)
          self.tableElements.append(tableElement)
 
-   def remove(self):
+  
+    def add(self):
+        global tableLength
+        tableLength += 1
+        table.append([])
+        if (tableLength < 10):
+            tableElement = []
+            for j in range(5):
+                element = tk.Entry(self.parent)
+                element.place(x=tableLength * 50 + 50, y=j * 50 + 225, width=50, height=50)
+                tableElement.append(element)
+            self.tableElements.append(tableElement)
+
+  def remove(self):
       global tableLength
       if (tableLength > 1):
          tableLength = tableLength - 1
          del self.tableElements[-1]                   #ändern zum namen der Tabelle wenn es soweit ist
-            
-
-
-   def bandForward(self):        #index + 1 -->  bewegt nach rechts
+         
+    def bandForward(self):
+        global bandIndex
+        self.mapBand()
+        bandIndex += 1
+        self.update()
+  def bandForward(self):        #index + 1 -->  bewegt nach rechts
       global bandIndex
       self.mapBand()
       bandIndex += 1
@@ -367,7 +283,22 @@ class GUI(tk.Frame):
       bandIndex -= 1
       self.update()
 
-   #deprecated
+  
+
+    def bandBack(self):
+        global bandIndex
+        self.mapBand()
+        bandIndex -= 1
+        self.update()
+ 
+    # deprecated
+    def tableLeft(self):
+        global table, tableIndex, tableLength
+        if tableLength >= 10 and tableIndex <0:
+            self.mapTable()
+            tableIndex += 1
+            self.updateTable()
+  #deprecated
    def tableLeft(self):
       print()
 
@@ -379,8 +310,54 @@ class GUI(tk.Frame):
          for y in range(5):
             self.tableElements[x][y].delete()
             self.tableElements[x][y].insert(0, table[x - tableIndex][y])
+            
+    # deprecated
+    def tableRight(self):
+        global table, tableIndex, tableLength
+        if tableLength >= 10 and tableIndex > 9-tableLength:
+            self.mapTable()
+            tableIndex -= 1
+            self.updateTable()
+ 
+    def mapTable(self):
+        global table, tableLength, tableIndex
+        print("mapping table")
+        print("tableIndex: " + str(tableIndex))
+        print("tableLength: " + str(tableLength))
+        for x in range(9 if tableLength >= 9 else tableLength):
+            column = []
+            print("old position: " + str(x))
+            print("new position: " + str(x - tableIndex))
+            for y in range(5):
+                print(" x: " + str(x) + " y: " + str(y))
+                column.append(self.tableElements[x][y].get())
+            table[x - tableIndex] = column
+ 
+    def updateTable(self):
+        global table, tableLength
+        print("update table")
+        print("tableIndex: " + str(tableIndex))
+        print("tableLength: " + str(tableLength))
+        for x in range(8 if tableLength >= 8 else tableLength):
+            for y in range(5):
+                print(" x: " + str(x) + " y: " + str(y))
+                self.tableElements[x][y].delete(0, tk.END)
+                self.tableElements[x][y].insert(0, table[x - tableIndex][y])
 
-   def mapTable(self): #liest Eingabe von Tabelle aus und fügt sie in ein 2dimensionales Array ein
+ 
+    def mapBand(self):
+        global band, bandIndex
+        for i in range(10):
+            value = self.arr[i].get()
+            band[bandIndex + i] = value if len(value) > 0 else "#"
+
+    def mapBand(self): #liest Eingabe von Band aus und fügt sie in ein Array ein
+      global band, bandIndex
+      for i in range(10):
+         value = self.arr[i].get()
+         band[bandIndex + i] =  value if len(value) > 0 else "#"
+
+ def mapTable(self): #liest Eingabe von Tabelle aus und fügt sie in ein 2dimensionales Array ein
       global table, tableLength
       table = []
       for x in range(tableLength):
@@ -395,11 +372,36 @@ class GUI(tk.Frame):
             arr.append(a)
          table.append(arr)
 
-   def mapBand(self): #liest Eingabe von Band aus und fügt sie in ein Array ein
-      global band, bandIndex
-      for i in range(10):
-         value = self.arr[i].get()
-         band[bandIndex + i] =  value if len(value) > 0 else "#"
+#deprecated for debug reasons only
+def dumpMap():
+   print("tableLength: " + str(len(table)))
+   for column in table:
+      string = " [ "
+      for element in column:
+         string += element + ", "
+      print(string + " ] ")
+
+# deprecated for debug reasons only
+def dumpMap():
+    print("tableLength: " + str(len(table)))
+    for column in table:
+        string = " [ "
+        for element in column:
+            string += element + ", "
+        print(string + " ] ")
+
+#------------------------------
+# GUI
+#------------------------------
+class GUI(tk.Frame):
+   
+   
+
+
+  
+   
+
+   
 
 
 #------------------------------
@@ -443,20 +445,10 @@ def nextStep():
     return False
  
  
-# deprecated for debug reasons only
-def dumpMap():
-    print("tableLength: " + str(len(table)))
-    for column in table:
-        string = " [ "
-        for element in column:
-            string += element + ", "
-        print(string + " ] ")
  
  
-root = tk.Tk()
-graphics = GUI(root)
-root.mainloop()
 
+def nextStep():
    global table, state, pointer, band, stateIndex
    for i in range(len(table)):  # gehe jede spalte durch
       column = table[i]
@@ -484,21 +476,17 @@ root.mainloop()
 
 
 
-#deprecated for debug reasons only
-def dumpMap():
-   print("tableLength: " + str(len(table)))
-   for column in table:
-      string = " [ "
-      for element in column:
-         string += element + ", "
-      print(string + " ] ")
+
 
 
 
 #------------------------------
 # Programm ausführen
 #------------------------------
-   
+  
+root = tk.Tk()
+graphics = GUI(root)
+root.mainloop() 
 
 root = tk.Tk()
 graphics = GUI(root)
