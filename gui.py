@@ -1,5 +1,7 @@
 import tkinter as tk
-
+#------------------------------
+# GLOBAL variables
+#------------------------------
 global band
 band = []
 
@@ -24,12 +26,16 @@ pointer = 0
 global stateIndex
 stateIndex = 0
 
-def fillBand(length):
+
+#------------------------------
+# init
+#------------------------------
+def fillBand(length):   #band gets filled
     global band
     for i in range(0, length):  
         band.append("#")  
 
-fillBand(50)
+fillBand(50)   #band gets filled with 50 elements
 
    
 
@@ -45,46 +51,47 @@ def run(): #the running cirlce
    else:
       print("DONE")
 
-      
 
-
+#------------------------------
+# GUI
+#------------------------------
 class GUI(tk.Frame):
-
    def __init__(self, parent):
       super(GUI, self).__init__(parent)
       self.parent = parent
       parent.title("Turing")
-      parent.geometry("600x700")
+      parent.geometry("600x475")
+      parent.resizable(0, 0)
       parent.configure(bg="#36393F")
 
 
        
       #StartButton
-      bandLeft = tk.Button(parent,fg="black", bg="#43B581",font= 50, text = "Start", command=self.start)
-      bandLeft.place(x = 50, y = 125, width = 250, height = 50)
+      bandLeft = tk.Button(parent,fg="black", bg="#43B581",font= 50, text = "Start", command=self.start) #start button is created
+      bandLeft.place(x = 50, y = 125, width = 250, height = 50)   #start button is placed
 
-      #Pointer
-      self.pointer = tk.Label(parent, bg="#F04747", font=50, text="V")
-      self.pointer.place(x =50-bandIndex, y =0, width=50 , height = 25) #index angezeigter Feld - links rechts 
+      #Pointer(von oben)
+      self.pointer = tk.Label(parent, bg="#F04747", font=50, text="V")  #label is created
+      self.pointer.place(x =50, y =0, width=50 , height = 25) #label is placed
 
-      #Second Pointer
-      self.secondPointer = tk.Label(parent, bg="#F04747", font=50, text="Ʌ")
-      self.secondPointer.place(x =50, y =75, width=50 , height = 25) 
+      #Pointer(von unten)
+      self.secondPointer = tk.Label(parent, bg="#F04747", font=50, text="Ʌ")  #Label is created
+      self.secondPointer.place(x =50, y =75, width=50 , height = 25) #label is placed
 
       #State Label
       self.stateLabel = tk.Label(parent, text=state)
       self.stateLabel.place(x=0, y=0, width=50, height=25)
 
       #state Pointer
-      self.statePointer = tk.Label(parent, bg="#FAA61A", font=50, text="V")
+      self.statePointer = tk.Label(parent, bg="#FAA61A", font=50, text="V")   #state pointer is created
       
       #Band
-      bandLeft = tk.Button(parent,fg="#ffffff", bg="#2F3136",font= 50, text = "<", command=self.bandBack)
-      bandLeft.place(x = 0, y = 25, width = 50, height = 50)
+      bandLeft = tk.Button(parent,fg="#ffffff", bg="#2F3136",font= 50, text = "<", command=self.bandBack)   #band go-left is created
+      bandLeft.place(x = 0, y = 25, width = 50, height = 50)   #band go-left is created
 
       self.arr = []
       for i in range (10):
-         element = tk.Entry(parent)
+         element = tk.Entry(parent, font= 60)
          element.place(x=i*50 + 50, y=25, width=50, height=50)
          self.arr.append(element)
       
@@ -167,13 +174,13 @@ class GUI(tk.Frame):
             
 
 
-   def bandForward(self):
+   def bandForward(self):        #index + 1 -->  bewegt nach rechts
       global bandIndex
       self.mapBand()
       bandIndex += 1
       self.update()
 
-   def bandBack(self):
+   def bandBack(self):           #index - 1 -->  bewegt nach links
       global bandIndex
       self.mapBand()
       bandIndex -= 1
@@ -192,7 +199,7 @@ class GUI(tk.Frame):
             self.tableElements[x][y].delete()
             self.tableElements[x][y].insert(0, table[x - tableIndex][y])
 
-   def mapTable(self):
+   def mapTable(self): #liest Eingabe von Tabelle aus und fügt sie in ein 2dimensionales Array ein
       global table, tableLength
       table = []
       for x in range(tableLength):
@@ -207,19 +214,16 @@ class GUI(tk.Frame):
             arr.append(a)
          table.append(arr)
 
-
-   def mapBand(self):
+   def mapBand(self): #liest Eingabe von Band aus und fügt sie in ein Array ein
       global band, bandIndex
       for i in range(10):
          value = self.arr[i].get()
          band[bandIndex + i] =  value if len(value) > 0 else "#"
-         
 
 
-
-
-
-#Backend
+#------------------------------
+# Backend
+#------------------------------
 def appendLeft():
    global band, pointer
    band.insert(0, "#")  # das band wird links um eine stelle erweitert
@@ -237,7 +241,7 @@ def nextStep():
       if column[0] == str(state):  # wenn der aktuelle zustand stimmt
          print("confirmed state " + str(column))
          if column[1] == band[pointer]:  # wenn man das richtige liest
-            print("confirmd read " + band[pointer])
+            print("confirmed read " + band[pointer])
             stateIndex = i
             band[pointer] = column[2]  # ersetzte mit dem schreibe element
             move = 1 if column[3] == "R" else -1
@@ -267,10 +271,12 @@ def dumpMap():
       print(string + " ] ")
 
 
+
+#------------------------------
+# Programm ausführen
+#------------------------------
+   
+
 root = tk.Tk()
 graphics = GUI(root)
-graphics.error("Malte stinkt gar ncith so stark")
 root.mainloop()
-
-
-   
