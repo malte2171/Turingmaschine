@@ -122,7 +122,7 @@ class GUI(tk.Frame):
       self.ErrorLabel = tk.Label(parent,  fg="#000000", bg="#ffffff", font= 60, text="Error: du bist gay")
       self.ErrorLabel.place(x = 0, y=500, width = 600, height = 100)
       
-      self.errorButton = tk.Button(parent,fg="#ffffff", bg="#2F3136", font= 60, text="test", command=self.error)
+      self.errorButton = tk.Button(parent,fg="#ffffff", bg="#2F3136", font= 60, text="change Label", command=self.error)
       self.errorButton.place(x = 0, y=610, width = 600, height = 100)
 
 
