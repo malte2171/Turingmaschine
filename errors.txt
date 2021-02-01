@@ -11,10 +11,10 @@ IV:  schwer       (Verständnis von mehreren Programmteilen nötig)
 V:   sehr schwer  (Verständnis vom gesamten Programm nötig)
 
 Themen:
-A: (III) Reset & Band nach Rechts -> Fehler
-B: (II)  Beim Ausführen zeigt der Pfeil des Bands die falschen/unnötige Zahlen an
-C: (IV)  Wenn man beim Ausführen auf den Pfeil klickt, wird dieser nicht in die Mitte bewegt
-D: (I)   Wenn man das Programm stoppt, steht am Knopf immernoch Stop
-E: (I)   Fehler durch Reset beim laufenden Programm
-F: (III) Wenn man im laufenden Betrieb auf den Tabellenpfeil klickt, bleibt dieser ggf. außerhalb
-G: (V)   Nutzereingaben auf Dummheit prüfen und ggf. das Programm anhalten, sowie Änderungen im laufenden Betrieb verhindern.
+A: (III) Reset & Band nach Rechts -> Fehler   (Tobias)
+B: (II)  Beim Ausführen zeigt der Pfeil des Bands die falschen/unnötige Zahlen an     (Daniel)
+C: (IV)  Wenn man beim Ausführen auf den Pfeil klickt, wird dieser nicht in die Mitte bewegt    (Tim)
+D: (I)   Wenn man das Programm stoppt, steht am Knopf immernoch Stop       (Julia, Celina)
+E: (I)   Fehler durch Reset beim laufenden Programm     (Malte, Marcel)
+F: (III) Wenn man im laufenden Betrieb auf den Tabellenpfeil klickt, bleibt dieser ggf. außerhalb   (Adrian)
+G: (V)   Nutzereingaben auf Dummheit prüfen und ggf. das Programm anhalten, sowie Änderungen im laufenden Betrieb verhindern.   (Jan, Julian)
