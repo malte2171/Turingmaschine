@@ -80,6 +80,7 @@ def run(): #the running cirlce
 def reset():
     global graphics, root
     print("reset")
+    running = False ############################################################
     root.destroy()
     root = tk.Tk()
     graphics = GUI(root)
